@@ -1,4 +1,6 @@
-= gritano-core
+= Gritano::Core
+
+{<img src="https://travis-ci.org/igorbonadio/gritano-core.png" />}[https://travis-ci.org/igorbonadio/gritano-core]
 
 Description goes here.
 
