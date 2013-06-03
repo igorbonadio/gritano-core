@@ -29,5 +29,12 @@ module Gritano::Core
       user.keys.create(name: 'my_second_key', key: 'some key')
       user.keys.count.should be == 2
     end
+
+    it "can own repositories" do
+      user = User.create(login: 'igorbonadio')
+      user.owned_repositories.create(name: 'my_first_repo', path: 'path/to/some/folder')
+      user.owned_repositories.create(name: 'my_second_repo', path: 'path/to/some/folder')
+      user.owned_repositories.count.should be == 2
+    end
   end
 end
