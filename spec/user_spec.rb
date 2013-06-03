@@ -22,5 +22,12 @@ module Gritano::Core
     it "can be admin" do
       User.new(login: 'igorbonadio', admin: true).should be_admin
     end
+
+    it "can have many keys" do
+      user = User.create(login: 'igorbonadio')
+      user.keys.create(name: 'my_first_key', key: 'some key')
+      user.keys.create(name: 'my_second_key', key: 'some key')
+      user.keys.count.should be == 2
+    end
   end
 end
