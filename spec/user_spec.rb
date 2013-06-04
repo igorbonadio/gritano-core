@@ -77,5 +77,13 @@ module Gritano::Core
       user.check_access(repo, :read).should be_true
       user.check_access(repo, :write).should be_true
     end
+
+    it "can not receive UNKNOWN access to a reporitory" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor = User.create(login: 'jessicaeto')
+      user.add_access(repo, :wrong_type).should be_false
+    end
   end
 end
