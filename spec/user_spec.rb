@@ -2,6 +2,11 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 module Gritano::Core
   describe User do
+
+    before(:each) do
+      Grit::Repo.stub(:init_bare)
+    end
+
     it "should be invalid without a login" do
       User.new.should be_invalid
     end

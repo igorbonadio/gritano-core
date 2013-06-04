@@ -11,6 +11,17 @@ module Gritano
       validates :path, presence: true
       validates :owner_id, presence: true
 
+      before_create :create_bare_repo
+      after_destroy :destroy_bare_repo
+
+      def create_bare_repo
+        Grit::Repo.init_bare(full_path)
+      end
+      
+      def destroy_bare_repo
+        FileUtils.rm_r(full_path, force: true)
+      end
+
       def full_path
         File.join(path, name)
       end

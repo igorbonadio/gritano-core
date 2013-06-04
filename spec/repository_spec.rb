@@ -2,6 +2,11 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 module Gritano::Core
   describe Repository do
+    
+    before(:each) do
+      Grit::Repo.stub(:init_bare)
+    end
+
     it "should be invalid without a name" do
       Repository.new(path: 'path/to/some/folder', owner_id: 1).should be_invalid
     end
@@ -40,6 +45,17 @@ module Gritano::Core
       user = User.create(login: 'igorbonadio')
       repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
       repo.full_path.should be == "path/to/some/folder/my_repo"
+    end
+
+    it "should create a bare repo when it is created" do
+      Grit::Repo.should_receive(:init_bare).with('path/to/some/folder/my_repo')
+      Repository.create(name: 'my_repo', path: 'path/to/some/folder', owner_id: 1)
+    end
+
+    it "should remove the bare repo when it is destroyed" do
+      repo = Repository.create(name: 'my_repo', path: 'path/to/some/folder', owner_id: 1)
+      FileUtils.should_receive(:rm_r).with('path/to/some/folder/my_repo', force: true)
+      repo.destroy.should be_true
     end
 
   end
