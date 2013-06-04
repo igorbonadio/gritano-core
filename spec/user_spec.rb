@@ -36,5 +36,15 @@ module Gritano::Core
       user.owned_repositories.create(name: 'my_second_repo', path: 'path/to/some/folder')
       user.owned_repositories.count.should be == 2
     end
+
+    it "can contribute to repositories" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor = User.create(login: 'jessicaeto')
+      repo.contributors << contributor
+
+      contributor.repositories.count.should be == 1
+    end
   end
 end

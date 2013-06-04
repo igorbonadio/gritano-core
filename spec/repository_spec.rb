@@ -25,5 +25,16 @@ module Gritano::Core
       repo.owner.login.should be == 'igorbonadio'
     end
 
+    it "can have contributors" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor1 = User.create(login: 'jessicaeto')
+      contributor2 = User.create(login: 'arybonadio')
+      repo.contributors << contributor1
+      repo.contributors << contributor2
+      repo.contributors.count.should be == 2
+    end
+
   end
 end
