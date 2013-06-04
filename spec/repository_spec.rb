@@ -36,5 +36,11 @@ module Gritano::Core
       repo.contributors.count.should be == 2
     end
 
+    it "should return its full path" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+      repo.full_path.should be == "path/to/some/folder/my_repo"
+    end
+
   end
 end

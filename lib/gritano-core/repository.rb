@@ -10,6 +10,10 @@ module Gritano
       validates :name, uniqueness: true
       validates :path, presence: true
       validates :owner_id, presence: true
+
+      def full_path
+        File.join(path, name)
+      end
     end
   end
 end
