@@ -13,5 +13,24 @@ module Gritano::Core
     it "should have a access type" do
       Permission.new(contributor_id: 1, repository_id: 1).should be_invalid
     end
+
+    it "should manage READ access" do
+      permission = Permission.new(contributor_id: 1, repository_id: 1)
+      permission.access_type = :read
+      permission.access.should be == Permission::READ
+    end
+
+    it "should manage WRITE access" do
+      permission = Permission.new(contributor_id: 1, repository_id: 1)
+      permission.access_type = :write
+      permission.access.should be == Permission::WRITE
+    end
+
+    it "should manage WRITE access" do
+      permission = Permission.new(contributor_id: 1, repository_id: 1)
+      permission.access_type = :write
+      permission.access_type = :read
+      permission.access.should be == (Permission::WRITE | Permission::READ)
+    end
   end
 end
