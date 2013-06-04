@@ -8,7 +8,7 @@ module Gritano
       validates :repository_id, presence: true
       validates :access, presence: true
 
-      def access_type=(type)
+      def add_access(type)
         if type == :read
           self.access = READ | (self.access || 0)
         elsif type == :write

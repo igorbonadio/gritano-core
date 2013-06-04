@@ -16,21 +16,21 @@ module Gritano::Core
 
     it "should manage READ access" do
       permission = Permission.new(contributor_id: 1, repository_id: 1)
-      permission.access_type = :read
+      permission.add_access(:read)
       permission.access.should be == Permission::READ
     end
 
     it "should manage WRITE access" do
       permission = Permission.new(contributor_id: 1, repository_id: 1)
-      permission.access_type = :write
+      permission.add_access(:write)
       permission.access.should be == Permission::WRITE
     end
 
     it "should manage WRITE access" do
       permission = Permission.new(contributor_id: 1, repository_id: 1)
-      permission.access_type = :write
-      permission.access_type = :read
-      permission.access.should be == (Permission::WRITE | Permission::READ)
+      permission.add_access(:write)
+      permission.add_access(:read)
+      permission.access.should be == Permission::WRITE | Permission::READ
     end
   end
 end

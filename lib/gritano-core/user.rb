@@ -11,7 +11,7 @@ module Gritano
 
       def add_access(repo, access_type)
         permission = repo.permissions.where(contributor_id: self.id).first || repo.permissions.new(contributor_id: self.id)
-        permission.access_type = access_type
+        permission.add_access(access_type)
         permission.save
       end
 
