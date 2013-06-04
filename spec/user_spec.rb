@@ -42,7 +42,7 @@ module Gritano::Core
       repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
 
       contributor = User.create(login: 'jessicaeto')
-      repo.contributors << contributor
+      repo.permissions.create(contributor_id: contributor.id, access: 0)
 
       contributor.repositories.count.should be == 1
     end

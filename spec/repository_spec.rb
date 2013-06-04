@@ -31,8 +31,8 @@ module Gritano::Core
 
       contributor1 = User.create(login: 'jessicaeto')
       contributor2 = User.create(login: 'arybonadio')
-      repo.contributors << contributor1
-      repo.contributors << contributor2
+      repo.permissions.create(contributor_id: contributor1.id, access: 0)
+      repo.permissions.create(contributor_id: contributor2.id, access: 0)
       repo.contributors.count.should be == 2
     end
 
