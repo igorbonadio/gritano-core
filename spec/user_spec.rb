@@ -46,5 +46,36 @@ module Gritano::Core
 
       contributor.repositories.count.should be == 1
     end
+
+    it "can receive READ access to a reporitory" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor = User.create(login: 'jessicaeto')
+      user.add_access(repo, :read)
+      user.check_access(repo, :read).should be_true
+      user.check_access(repo, :write).should be_false
+    end
+
+    it "can receive WRITE access to a reporitory" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor = User.create(login: 'jessicaeto')
+      user.add_access(repo, :write)
+      user.check_access(repo, :read).should be_false
+      user.check_access(repo, :write).should be_true
+    end
+
+    it "can receive READ and WRITE access to a reporitory" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor = User.create(login: 'jessicaeto')
+      user.add_access(repo, :write)
+      user.add_access(repo, :read)
+      user.check_access(repo, :read).should be_true
+      user.check_access(repo, :write).should be_true
+    end
   end
 end
