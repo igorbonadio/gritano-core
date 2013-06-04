@@ -19,6 +19,17 @@ module Gritano
         return true
       end
 
+      def remove_access(access)
+        if access == :read
+          self.access = (self.access || 0) & (~ READ)
+        elsif access == :write
+          self.access = (self.access || 0) & (~ WRITE)
+        else
+          return false
+        end
+        return true
+      end
+
       def is(type)
         if type == :read
           return (self.access & READ) == READ

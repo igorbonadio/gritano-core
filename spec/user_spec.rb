@@ -94,5 +94,87 @@ module Gritano::Core
       contributor.check_access(repo, :write).should be_false
       contributor.check_access(repo, :read).should be_false
     end
+
+    it "can loose READ access from a READ repository" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor = User.create(login: 'jessicaeto')
+      user.add_access(repo, :read)
+      user.remove_access(repo, :read)
+
+      user.check_access(repo, :read).should be_false
+      user.check_access(repo, :write).should be_false
+    end
+
+    it "can loose READ access from a WRITE repository" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor = User.create(login: 'jessicaeto')
+      user.add_access(repo, :write)
+      user.remove_access(repo, :read)
+
+      user.check_access(repo, :read).should be_false
+      user.check_access(repo, :write).should be_true
+    end
+
+    it "can loose READ access from a READ/WRITE repository" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor = User.create(login: 'jessicaeto')
+      user.add_access(repo, :read)
+      user.add_access(repo, :write)
+      user.remove_access(repo, :read)
+
+      user.check_access(repo, :read).should be_false
+      user.check_access(repo, :write).should be_true
+    end
+
+    it "can loose WRITE access from a READ repository" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor = User.create(login: 'jessicaeto')
+      user.add_access(repo, :read)
+      user.remove_access(repo, :write)
+
+      user.check_access(repo, :read).should be_true
+      user.check_access(repo, :write).should be_false
+    end
+
+    it "can loose WRITE access from a WRITE repository" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor = User.create(login: 'jessicaeto')
+      user.add_access(repo, :write)
+      user.remove_access(repo, :write)
+
+      user.check_access(repo, :read).should be_false
+      user.check_access(repo, :write).should be_false
+    end
+
+    it "can loose WRITE access from a READ/WRITE repository" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor = User.create(login: 'jessicaeto')
+      user.add_access(repo, :read)
+      user.add_access(repo, :write)
+      user.remove_access(repo, :write)
+
+      user.check_access(repo, :read).should be_true
+      user.check_access(repo, :write).should be_false
+    end
+
+    it "can not loose UNKNOWN access from a reporitory" do
+      user = User.create(login: 'igorbonadio')
+      repo = user.owned_repositories.create(name: 'my_repo', path: 'path/to/some/folder')
+
+      contributor = User.create(login: 'jessicaeto')
+      user.remove_access(repo, :wrong_type).should be_false
+    end
   end
 end
