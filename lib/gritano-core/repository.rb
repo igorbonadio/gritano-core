@@ -8,6 +8,7 @@ module Gritano
 
       validates :name, presence: true
       validates :name, uniqueness: true
+      validates :name, format: /\.git\z/
       validates :path, presence: true
       validates :owner_id, presence: true
 
