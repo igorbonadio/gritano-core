@@ -30,8 +30,8 @@ module Gritano::Core
 
     it "can have many keys" do
       user = User.create(login: 'igorbonadio')
-      user.keys.create(name: 'my_first_key', key: 'some key')
-      user.keys.create(name: 'my_second_key', key: 'some key')
+      user.keys.create(name: 'my_first_key', key: File.open('spec/key.pub').readlines.join)
+      user.keys.create(name: 'my_second_key', key: File.open('spec/key.pub').readlines.join)
       user.keys.count.should be == 2
     end
 
