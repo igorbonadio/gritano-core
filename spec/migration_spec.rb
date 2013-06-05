@@ -11,5 +11,16 @@ module Gritano::Core
       ActiveRecord::Migrator.should_receive(:migrate).with(File.join(root, 'lib/gritano-core/', '../../db/migrate'), nil)
       Migration.migrate(params)
     end
+
+    it "should return a migration file" do
+      Migration['create_users'].should be == File.open("db/migrate/001_create_users.rb").readlines.join
+      Migration['create_keys'].should be == File.open("db/migrate/002_create_keys.rb").readlines.join
+      Migration['create_repositories'].should be == File.open("db/migrate/003_create_repositories.rb").readlines.join
+      Migration['create_permissions'].should be == File.open("db/migrate/004_create_permissions.rb").readlines.join
+    end
+
+    it "should return nil if the migration desn't exist" do
+      Migration['create_wrong_model'].should be == nil
+    end
   end
 end
