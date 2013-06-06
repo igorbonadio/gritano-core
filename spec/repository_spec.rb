@@ -24,14 +24,14 @@ module Gritano::Core
       Repository.new(name: 'my_repo', path: 'path/to/some/folder').should be_invalid
     end
 
-    it "can have contributors" do
+    it "can have users" do
       repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
 
       contributor1 = User.create(login: 'jessicaeto')
       contributor2 = User.create(login: 'arybonadio')
-      repo.permissions.create(contributor_id: contributor1.id, access: 0)
-      repo.permissions.create(contributor_id: contributor2.id, access: 0)
-      repo.contributors.count.should be == 2
+      repo.permissions.create(user_id: contributor1.id, access: 0)
+      repo.permissions.create(user_id: contributor2.id, access: 0)
+      repo.users.count.should be == 2
     end
 
     it "should return its full path" do
