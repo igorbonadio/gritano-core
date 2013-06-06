@@ -36,12 +36,11 @@ module Gritano::Core
     end
 
     it "can contribute to repositories" do
+      user = User.create(login: 'igorbonadio')
       repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
 
-      contributor = User.create(login: 'jessicaeto')
-      repo.permissions.create(contributor_id: contributor.id, access: 0)
-
-      contributor.repositories.count.should be == 1
+      repo.permissions.create(contributor_id: user.id, access: 0)
+      user.repositories.count.should be == 1
     end
 
     it "can receive READ access to a reporitory" do
@@ -76,10 +75,10 @@ module Gritano::Core
     end
 
     it "should not allow user without permissions" do
+      user = User.create(login: 'igorbonadio')
       repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
-      contributor = User.create(login: 'jessicaeto')
-      contributor.check_access(repo, :write).should be_false
-      contributor.check_access(repo, :read).should be_false
+      user.check_access(repo, :write).should be_false
+      user.check_access(repo, :read).should be_false
     end
 
     it "can loose READ access from a READ repository" do
