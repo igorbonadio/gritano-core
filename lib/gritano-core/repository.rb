@@ -1,8 +1,6 @@
 module Gritano
   module Core
-    class Repository < ActiveRecord::Base
-      belongs_to :owner, class_name: "User"
-      
+    class Repository < ActiveRecord::Base      
       has_many :permissions
       has_many :contributors, through: :permissions
 
@@ -10,7 +8,6 @@ module Gritano
       validates :name, uniqueness: true
       validates :name, format: /\.git\z/
       validates :path, presence: true
-      validates :owner_id, presence: true
 
       before_create :create_bare_repo
       after_destroy :destroy_bare_repo

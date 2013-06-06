@@ -35,16 +35,8 @@ module Gritano::Core
       user.keys.count.should be == 2
     end
 
-    it "can own repositories" do
-      user = User.create(login: 'igorbonadio')
-      user.owned_repositories.create(name: 'my_first_repo.git', path: 'path/to/some/folder')
-      user.owned_repositories.create(name: 'my_second_repo.git', path: 'path/to/some/folder')
-      user.owned_repositories.count.should be == 2
-    end
-
     it "can contribute to repositories" do
-      user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
 
       contributor = User.create(login: 'jessicaeto')
       repo.permissions.create(contributor_id: contributor.id, access: 0)
@@ -54,9 +46,7 @@ module Gritano::Core
 
     it "can receive READ access to a reporitory" do
       user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
-
-      contributor = User.create(login: 'jessicaeto')
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
       user.add_access(repo, :read)
       user.check_access(repo, :read).should be_true
       user.check_access(repo, :write).should be_false
@@ -64,9 +54,7 @@ module Gritano::Core
 
     it "can receive WRITE access to a reporitory" do
       user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
-
-      contributor = User.create(login: 'jessicaeto')
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
       user.add_access(repo, :write)
       user.check_access(repo, :read).should be_false
       user.check_access(repo, :write).should be_true
@@ -74,9 +62,7 @@ module Gritano::Core
 
     it "can receive READ and WRITE access to a reporitory" do
       user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
-
-      contributor = User.create(login: 'jessicaeto')
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
       user.add_access(repo, :write)
       user.add_access(repo, :read)
       user.check_access(repo, :read).should be_true
@@ -85,16 +71,12 @@ module Gritano::Core
 
     it "can not receive UNKNOWN access to a reporitory" do
       user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
-
-      contributor = User.create(login: 'jessicaeto')
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
       user.add_access(repo, :wrong_type).should be_false
     end
 
     it "should not allow user without permissions" do
-      user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
-
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
       contributor = User.create(login: 'jessicaeto')
       contributor.check_access(repo, :write).should be_false
       contributor.check_access(repo, :read).should be_false
@@ -102,9 +84,8 @@ module Gritano::Core
 
     it "can loose READ access from a READ repository" do
       user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
 
-      contributor = User.create(login: 'jessicaeto')
       user.add_access(repo, :read)
       user.remove_access(repo, :read)
 
@@ -114,9 +95,8 @@ module Gritano::Core
 
     it "can loose READ access from a WRITE repository" do
       user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
 
-      contributor = User.create(login: 'jessicaeto')
       user.add_access(repo, :write)
       user.remove_access(repo, :read)
 
@@ -126,9 +106,8 @@ module Gritano::Core
 
     it "can loose READ access from a READ/WRITE repository" do
       user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
 
-      contributor = User.create(login: 'jessicaeto')
       user.add_access(repo, :read)
       user.add_access(repo, :write)
       user.remove_access(repo, :read)
@@ -139,9 +118,8 @@ module Gritano::Core
 
     it "can loose WRITE access from a READ repository" do
       user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
 
-      contributor = User.create(login: 'jessicaeto')
       user.add_access(repo, :read)
       user.remove_access(repo, :write)
 
@@ -151,9 +129,8 @@ module Gritano::Core
 
     it "can loose WRITE access from a WRITE repository" do
       user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
 
-      contributor = User.create(login: 'jessicaeto')
       user.add_access(repo, :write)
       user.remove_access(repo, :write)
 
@@ -163,9 +140,8 @@ module Gritano::Core
 
     it "can loose WRITE access from a READ/WRITE repository" do
       user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
 
-      contributor = User.create(login: 'jessicaeto')
       user.add_access(repo, :read)
       user.add_access(repo, :write)
       user.remove_access(repo, :write)
@@ -176,9 +152,7 @@ module Gritano::Core
 
     it "can not loose UNKNOWN access from a reporitory" do
       user = User.create(login: 'igorbonadio')
-      repo = user.owned_repositories.create(name: 'my_repo.git', path: 'path/to/some/folder')
-
-      contributor = User.create(login: 'jessicaeto')
+      repo = Repository.create(name: 'my_repo.git', path: 'path/to/some/folder')
       user.remove_access(repo, :wrong_type).should be_false
     end
   end
