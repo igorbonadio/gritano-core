@@ -2,7 +2,9 @@
 
 {<img src="https://travis-ci.org/igorbonadio/gritano-core.png" />}[https://travis-ci.org/igorbonadio/gritano-core]
 
-Description goes here.
+Gritano::Core is a library that defines all Gritano's Models. 
+
+It can be used to develop tools that manage users, repositories and permissions.
 
 == Contributing to gritano-core
  
