@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
     "db/migrate/002_create_keys.rb",
     "db/migrate/003_create_repositories.rb",
     "db/migrate/004_create_permissions.rb",
+    "gritano-core.gemspec",
     "lib/gritano-core.rb",
     "lib/gritano-core/key.rb",
     "lib/gritano-core/migration.rb",
