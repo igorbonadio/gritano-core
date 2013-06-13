@@ -5,7 +5,6 @@ module Gritano
       validates :name, uniqueness: {scope: :user_id}
 
       validates :key, presence: true
-      validates :key, format: /\Assh-(?:dss|rsa) .* /
       validates :user_id, presence: true
 
       def key=(pubkey)
