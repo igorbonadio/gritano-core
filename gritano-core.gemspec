@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "gritano-core"
-  s.version = "1.1.1"
+  s.version = "1.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Igor Bonadio"]
-  s.date = "2013-06-13"
+  s.date = "2013-06-14"
   s.description = "Gritano::Core is a library that defines all Gritano's Models. It can be used to develop tools that manage users, repositories and permissions."
   s.email = "igorbonadio@gmail.com"
   s.extra_rdoc_files = [
@@ -51,11 +51,11 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/igorbonadio/gritano-core"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.25"
+  s.rubygems_version = "2.0.3"
   s.summary = "Gritano::Core is a library that defines all Gritano's Models."
 
   if s.respond_to? :specification_version then
-    s.specification_version = 3
+    s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activerecord>, ["~> 4.0.0.rc1"])
