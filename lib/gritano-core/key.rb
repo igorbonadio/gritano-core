@@ -11,7 +11,7 @@ module Gritano
       validates :user_id, presence: true
 
       def key=(pubkey)
-        write_attribute(:key, pubkey.scan(/\Assh-(?:dss|rsa) .*/)[0][0..-2])
+        write_attribute(:key, pubkey.scan(/\Assh-(?:dss|rsa) .*/)[0][0..-1])
       end
     end
   end
