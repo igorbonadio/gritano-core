@@ -12,6 +12,8 @@ module Gritano
 
       def key=(pubkey)
         write_attribute(:key, pubkey.scan(/\Assh-(?:dss|rsa) .*/)[0][0..-1])
+      rescue
+        write_attribute(:key, "")
       end
     end
   end
