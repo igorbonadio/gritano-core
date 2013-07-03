@@ -14,6 +14,10 @@ module Gritano::Core
       Key.new(user_id: 1, name: "my_key", key: "wrong").should be_invalid
     end
 
+    it "should have a specific error for key format" do
+      Key.create(user_id: 1, name: "my_key", key: "wrong").errors[:key].include?('is invalid').should be_true
+    end
+
     it "should belongs to a user" do
       Key.new(name: "my_key", key: File.open('spec/key.pub').readlines.join).should be_invalid
     end
