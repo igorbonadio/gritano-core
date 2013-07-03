@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "gritano-core"
-  s.version = "2.0.1"
+  s.version = "2.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Igor Bonadio"]
-  s.date = "2013-07-02"
+  s.date = "2013-07-03"
   s.description = "Gritano::Core is a library that defines all Gritano's Models. It can be used to develop tools that manage users, repositories and permissions."
   s.email = "igorbonadio@gmail.com"
   s.extra_rdoc_files = [
